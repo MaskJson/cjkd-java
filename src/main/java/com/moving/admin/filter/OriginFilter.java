@@ -35,7 +35,7 @@ public class OriginFilter implements Filter {
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse rep = (HttpServletResponse) response;
+        HttpServletResponse res = (HttpServletResponse) response;
         String url = req.getRemoteHost();
         url = url != null ? url : "";
 //		if(url.indexOf("111.230.200.16")>-1) {
@@ -52,7 +52,11 @@ public class OriginFilter implements Filter {
 //			printWriter.write(map.toString());
 //			printWriter.close();
 //		}
-        chain.doFilter(req, rep);
+        res.addHeader("Access-Control-Allow-Origin", "*");
+        res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        res.addHeader("Access-Control-Allow-Headers",
+                "Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,token");
+        chain.doFilter(req, res);
     }
 
     /**
